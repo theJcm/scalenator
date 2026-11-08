@@ -1,0 +1,453 @@
+@import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap");
+
+:root {
+  font-family: "DM Sans", sans-serif;
+  color: #242126;
+  background: #faf9fb;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+
+  --accent: #e40069;
+  --text: #242126;
+  --muted: #85818a;
+  --border: #eae7ec;
+  --surface: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+button,
+select {
+  font: inherit;
+}
+
+.header {
+  height: 72px;
+  padding: 0 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  font-size: 25px;
+  font-weight: 700;
+  letter-spacing: -1.5px;
+}
+
+.logo span {
+  color: var(--accent);
+}
+
+.header-description {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.workspace {
+  width: 94%;
+  max-width: 1600px;
+  margin: 28px auto;
+}
+
+.controls {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(140px, 1fr));
+  gap: 14px;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.control {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.control label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.control select {
+  width: 100%;
+  height: 42px;
+  padding: 0 12px;
+  color: var(--text);
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  outline: none;
+  cursor: pointer;
+}
+
+.control select:focus {
+  border-color: var(--accent);
+}
+
+.fretboard-section {
+  margin-top: 22px;
+  padding: 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.section-heading h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.section-heading p {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.legend {
+  display: flex;
+  gap: 18px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.legend span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.root-dot,
+.note-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.root-dot {
+  background: var(--accent);
+}
+
+.note-dot {
+  background: #fff;
+  border: 1px solid #c8bdc5;
+}
+
+.fretboard-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.fretboard {
+  display: block;
+  width: 100%;
+  min-width: 750px;
+  height: auto;
+}
+
+.fret-number {
+  font-size: 12px;
+  fill: var(--muted);
+}
+
+.string-label {
+  font-size: 13px;
+  font-weight: 600;
+  fill: var(--text);
+}
+
+.note-label {
+  font-size: 11px;
+  font-weight: 600;
+  fill: var(--text);
+}
+
+.root-note {
+  fill: white;
+}
+
+.notes-section {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  margin-top: 18px;
+  padding: 22px 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.notes-section h3 {
+  margin: 0 0 14px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.notes-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.note-chip {
+  min-width: 38px;
+  padding: 8px 12px;
+  text-align: center;
+  background: #f5f3f6;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.root-chip {
+  color: white;
+  background: var(--accent);
+}
+
+.formula p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+@media (max-width: 900px) {
+  .controls {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .header {
+    height: 60px;
+  }
+
+  .header-description {
+    display: none;
+  }
+
+  .workspace {
+    width: 96%;
+    margin: 16px auto;
+  }
+
+  .controls {
+    grid-template-columns: 1fr 1fr;
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .fretboard-section {
+    padding: 14px;
+  }
+
+  .section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .notes-section {
+    flex-direction: column;
+    padding: 18px;
+  }
+}
+.degrees-section {
+  margin-top: 18px;
+  padding: 22px 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.degrees-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.degrees-heading h3 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.degrees-heading > span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.degrees-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(115px, 1fr));
+  gap: 10px;
+}
+
+.degree-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  padding: 16px 8px;
+  background: #faf9fb;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.degree-number {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.degree-card strong {
+  color: var(--accent);
+  font-size: 18px;
+}
+
+.degree-notes {
+  color: var(--muted);
+  font-size: 11px;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .degrees-section {
+    padding: 18px;
+  }
+
+  .degrees-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+/* Fretboard premium */
+
+.fretboard-wrapper {
+  padding: 12px 0;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #687386 transparent;
+}
+
+.fretboard {
+  display: block;
+  width: 100%;
+  min-width: 750px;
+  height: auto;
+  filter: drop-shadow(0 12px 18px rgba(20, 25, 35, 0.12));
+}
+
+.fret-number {
+  font-size: 12px;
+  font-weight: 600;
+  fill: #858e9e;
+}
+
+.string-label {
+  font-size: 13px;
+  font-weight: 700;
+  fill: #454e5e;
+}
+
+.note-label {
+  font-size: 10px;
+  font-weight: 700;
+  fill: #ffffff;
+  pointer-events: none;
+}
+
+.fret-note {
+  transition: opacity 0.2s ease;
+}
+
+.fret-note:hover {
+  opacity: 0.75;
+}
+
+/* Leyenda de grados */
+
+.degree-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+}
+
+.degree-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 145px;
+}
+
+.degree-color {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.035);
+}
+
+.degree-legend-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.degree-legend-info strong {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.degree-legend-info span {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+/* Acordes */
+
+.degree-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 3px 12px rgba(25, 30, 40, 0.035);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.degree-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(25, 30, 40, 0.08);
+}
+
+@media (max-width: 600px) {
+  .degree-legend {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .degree-legend-item {
+    min-width: 0;
+  }
+}
