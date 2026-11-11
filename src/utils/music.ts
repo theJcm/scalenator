@@ -92,6 +92,26 @@ export function getDegreeInfo(interval: number) {
   return DEGREE_INFO[interval % 12];
 }
 
+// Número de intervalo según los semitonos desde la tónica
+const INTERVAL_LABELS = [
+  "1",
+  "♭2",
+  "2",
+  "♭3",
+  "3",
+  "4",
+  "♭5",
+  "5",
+  "♭6",
+  "6",
+  "♭7",
+  "7",
+];
+
+export function getIntervalLabel(interval: number) {
+  return INTERVAL_LABELS[interval % 12];
+}
+
 function getChordQuality(third: number, fifth: number) {
   if (third === 4 && fifth === 7) return "";
   if (third === 3 && fifth === 7) return "m";

@@ -17,6 +17,7 @@ import {
 } from "./utils/music";
 
 type Notation = "english" | "latin";
+type DisplayMode = "notes" | "intervals";
 
 function App() {
   const [root, setRoot] = useState(0);
@@ -29,7 +30,13 @@ function App() {
 
   const [notation, setNotation] = useState<Notation>("english");
 
+  const [display, setDisplay] = useState<DisplayMode>("notes");
+
+  const [startFret, setStartFret] = useState(1);
+
   const [frets, setFrets] = useState(24);
+
+  const [toggled, setToggled] = useState<Set<string>>(new Set());
 
   const selectedInstrument = INSTRUMENTS[instrument];
 
@@ -70,13 +77,38 @@ function App() {
     note: noteNames[notes[index]],
   }));
 
+  function handleToggle(key: string) {
+    setToggled((prev) => {
+      const next = new Set(prev);
+      if (!next.delete(key)) next.add(key);
+      return next;
+    });
+  }
+
+  function resetFretboard() {
+    setToggled(new Set());
+  }
+
+  function handleRootChange(value: number) {
+    setRoot(value);
+    resetFretboard();
+  }
+
+  function handleStructureChange(value: string) {
+    setStructure(value);
+    resetFretboard();
+  }
+
   function handleCategoryChange(value: StructureCategory) {
+    resetFretboard();
     setCategory(value);
     setStructure(Object.keys(STRUCTURES[value])[0]);
   }
 
   function handleInstrumentChange(value: InstrumentType) {
     setInstrument(value);
+    resetFretboard();
+    setStartFret(1);
     setFrets(INSTRUMENTS[value].maxFrets);
   }
 
@@ -123,7 +155,7 @@ function App() {
             <label>Tonalidad</label>
             <select
               value={root}
-              onChange={(e) => setRoot(Number(e.target.value))}
+              onChange={(e) => handleRootChange(Number(e.target.value))}
             >
               {NOTES.map((note, index) => (
                 <option key={note} value={index}>
@@ -150,7 +182,7 @@ function App() {
             <label>{category === "scales" ? "Escala" : "Arpegio"}</label>
             <select
               value={structure}
-              onChange={(e) => setStructure(e.target.value)}
+              onChange={(e) => handleStructureChange(e.target.value)}
             >
               {Object.entries(STRUCTURES[category]).map(([key, item]) => (
                 <option key={key} value={key}>
@@ -161,20 +193,81 @@ function App() {
           </div>
 
           <div className="control">
-            <label>Trastes (máx. {selectedInstrument.maxFrets})</label>
-            <select
-              value={frets}
-              onChange={(e) => setFrets(Number(e.target.value))}
+            <label id="display-label">Mostrar</label>
+            <div
+              className="radio-group"
+              role="radiogroup"
+              aria-labelledby="display-label"
             >
-              {Array.from(
-                { length: selectedInstrument.maxFrets },
-                (_, index) => index + 1,
-              ).map((fret) => (
-                <option key={fret} value={fret}>
-                  {fret}
-                </option>
+              {(
+                [
+                  ["notes", "Notas"],
+                  ["intervals", "Intervalo"],
+                ] as const
+              ).map(([value, text]) => (
+                <label
+                  key={value}
+                  className={`radio-option${display === value ? " active" : ""}`}
+                >
+                  <input
+                    type="radio"
+                    name="display"
+                    value={value}
+                    checked={display === value}
+                    onChange={() => setDisplay(value)}
+                  />
+                  <span>{text}</span>
+                </label>
               ))}
-            </select>
+            </div>
+          </div>
+
+          <div className="control">
+            <label>Mástil</label>
+            <button
+              type="button"
+              className="reset-button"
+              onClick={resetFretboard}
+              disabled={toggled.size === 0}
+            >
+              Reiniciar
+            </button>
+          </div>
+
+          <div className="control">
+            <label>Trastes (máx. {selectedInstrument.maxFrets})</label>
+            <div className="range-row">
+              <select
+                aria-label="Traste inicial"
+                value={startFret}
+                onChange={(e) => setStartFret(Number(e.target.value))}
+              >
+                {Array.from({ length: frets }, (_, index) => index + 1).map(
+                  (fret) => (
+                    <option key={fret} value={fret}>
+                      {fret}
+                    </option>
+                  ),
+                )}
+              </select>
+
+              <span className="range-separator">–</span>
+
+              <select
+                aria-label="Traste final"
+                value={frets}
+                onChange={(e) => setFrets(Number(e.target.value))}
+              >
+                {Array.from(
+                  { length: selectedInstrument.maxFrets - startFret + 1 },
+                  (_, index) => startFret + index,
+                ).map((fret) => (
+                  <option key={fret} value={fret}>
+                    {fret}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
         </section>
 
@@ -185,7 +278,7 @@ function App() {
                 {noteNames[root]} {selectedStructure.name}
               </h2>
               <p>
-                {selectedInstrument.name} · {frets} trastes
+                {selectedInstrument.name} · trastes {startFret}–{frets}
               </p>
             </div>
 
@@ -204,7 +297,11 @@ function App() {
             intervals={intervals}
             strings={selectedInstrument.strings}
             notation={notation}
-            frets={frets}
+            display={display}
+            startFret={startFret}
+            endFret={frets}
+            toggled={toggled}
+            onToggle={handleToggle}
           />
         </section>
 
