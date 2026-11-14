@@ -539,3 +539,125 @@ select {
 .range-separator {
   color: var(--muted);
 }
+
+/* Metrónomo */
+
+.metronome-section {
+  margin-top: 22px;
+  padding: 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.metronome-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.metronome-heading h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.metronome-heading span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.metronome-body {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 20px;
+}
+
+.metronome-toggle {
+  height: 42px;
+  min-width: 130px;
+  padding: 0 18px;
+  font-weight: 600;
+  color: var(--accent);
+  background: #fff;
+  border: 1px solid var(--accent);
+  border-radius: 7px;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+
+.metronome-toggle.active {
+  color: #fff;
+  background: var(--accent);
+}
+
+.metronome-bpm {
+  flex: 1 1 260px;
+  max-width: 380px;
+}
+
+.metronome-signature {
+  width: 120px;
+}
+
+.bpm-input {
+  width: 80px;
+  height: 42px;
+  padding: 0 12px;
+  color: var(--text);
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  outline: none;
+  font: inherit;
+}
+
+.bpm-input:focus {
+  border-color: var(--accent);
+}
+
+.bpm-slider {
+  flex: 1;
+  min-width: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.beat-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 42px;
+}
+
+.beat-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--border);
+  transition:
+    background 0.08s,
+    transform 0.08s;
+}
+
+.beat-dot.strong {
+  width: 18px;
+  height: 18px;
+}
+
+.beat-dot.on {
+  background: var(--accent);
+  transform: scale(1.25);
+}
+
+/* Mástil vertical */
+
+.fretboard.fretboard-vertical {
+  min-width: 0;
+  max-width: 420px;
+  margin: 0 auto;
+}

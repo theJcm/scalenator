@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import Fretboard from "./components/fretboard/Fretboard";
+import Metronome from "./components/metronome/Metronome";
 
 import {
   NOTES,
@@ -18,6 +19,7 @@ import {
 
 type Notation = "english" | "latin";
 type DisplayMode = "notes" | "intervals";
+type Orientation = "horizontal" | "vertical";
 
 function App() {
   const [root, setRoot] = useState(0);
@@ -31,6 +33,8 @@ function App() {
   const [notation, setNotation] = useState<Notation>("english");
 
   const [display, setDisplay] = useState<DisplayMode>("notes");
+
+  const [orientation, setOrientation] = useState<Orientation>("horizontal");
 
   const [startFret, setStartFret] = useState(1);
 
@@ -223,6 +227,36 @@ function App() {
           </div>
 
           <div className="control">
+            <label id="orientation-label">Orientación</label>
+            <div
+              className="radio-group"
+              role="radiogroup"
+              aria-labelledby="orientation-label"
+            >
+              {(
+                [
+                  ["horizontal", "Horizontal"],
+                  ["vertical", "Vertical"],
+                ] as const
+              ).map(([value, text]) => (
+                <label
+                  key={value}
+                  className={`radio-option${orientation === value ? " active" : ""}`}
+                >
+                  <input
+                    type="radio"
+                    name="orientation"
+                    value={value}
+                    checked={orientation === value}
+                    onChange={() => setOrientation(value)}
+                  />
+                  <span>{text}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <div className="control">
             <label>Mástil</label>
             <button
               type="button"
@@ -298,12 +332,15 @@ function App() {
             strings={selectedInstrument.strings}
             notation={notation}
             display={display}
+            orientation={orientation}
             startFret={startFret}
             endFret={frets}
             toggled={toggled}
             onToggle={handleToggle}
           />
         </section>
+
+        <Metronome />
 
         <section className="notes-section">
           <div className="notes-block">
